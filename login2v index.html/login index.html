@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Trending Cryptocurrency Front-End</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #2d3436;
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #3498db;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border: 1px solid #bdc3c7;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Additional styling for the Trending Cryptocurrency Front-End */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://source.unsplash.com/1600x900/?cryptocurrency') center/cover no-repeat;
+      z-index: -1;
+      filter: blur(8px);
+    }
+
+    .login-container::after {
+      content: "📈 Trending Cryptocurrency Front-End";
+      display: block;
+      color: #3498db;
+      margin-top: 20px;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="button" onclick="attemptLogin()">Login</button>
+    </form>
+  </div>
+
+  <script>
+    function attemptLogin() {
+      // For simplicity, check if any username and password are entered
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        // Redirect to the main page (replace 'index.html' with the actual filename)
+        window.location.href = 'index.html';
+      } else {
+        alert('Please enter both username and password.');
+      }
+    }
+  </script>
+
+</body>
+
+</html>
+

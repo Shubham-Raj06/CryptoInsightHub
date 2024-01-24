@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Graph</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        header {
+            background-color: #f39c12;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        canvas {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Crypto Fluctuating Line Graph</h1>
+    </header>
+
+    <main>
+        <canvas id="cryptoGraph"></canvas>
+    </main>
+
+    <script>
+        // Simulated data for the fluctuating line graph
+        const graphData = [
+            { time: '00:00', value: 50 },
+            { time: '03:00', value: 80 },
+            { time: '06:00', value: 30 },
+            { time: '09:00', value: 60 },
+            { time: '12:00', value: 40 },
+            { time: '15:00', value: 70 },
+            { time: '18:00', value: 20 },
+            { time: '21:00', value: 50 },
+        ];
+
+        const canvas = document.getElementById('cryptoGraph');
+        const ctx = canvas.getContext('2d');
+
+        function drawGraph(data) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const maxValue = Math.max(...data.map(item => item.value));
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            ctx.moveTo(0, height - (data[0].value / maxValue) * height);
+
+            data.forEach((point, index) => {
+                const x = (index / (data.length - 1)) * width;
+                const y = height - (point.value / maxValue) * height;
+                ctx.lineTo(x, y);
+            });
+
+            ctx.strokeStyle = '#f39c12';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        drawGraph(graphData);
+    </script>
+
+</body>
+
+</html>

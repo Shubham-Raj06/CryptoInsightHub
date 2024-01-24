@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Cryptocurrency App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        header {
+            background-color: #f39c12;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .crypto-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            animation: cryptoMotion 5s infinite alternate;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+        }
+
+        @keyframes cryptoMotion {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(10px) translateX(10px);
+            }
+            50% {
+                transform: translateY(0) translateX(0);
+            }
+            75% {
+                transform: translateY(-10px) translateX(-10px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        .crypto-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #ccc;
+            margin: 5px 0;
+        }
+
+        .details-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .details-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Trending Cryptocurrencies</h1>
+        <div class="search-container">
+            <input type="text" id="cryptoSearch" placeholder="Search cryptocurrency...">
+            <select id="timeInterval">
+                <option value="hour">Hour</option>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+                <option value="marketCap">Market Cap</option>
+                <option value="dayChange">Day Change</option>
+            </select>
+        </div>
+    </header>
+
+    <main id="crypto-container">
+        <!-- Crypto buttons will be dynamically added here -->
+    </main>
+
+    <div class="details-container">
+        <!-- Additional details cards will be dynamically added here -->
+    </div>
+
+    <script>
+        // Simulated data with real-world cryptocurrency names
+        const cryptoData = [
+            { name: 'Bitcoin', symbol: 'BTC', marketCap: '$123.45B', price: '$40,567.89', dayChange: '5.67%', volume: '$1.23M' },
+            { name: 'Ethereum', symbol: 'ETH', marketCap: '$67.89B', price: '$2,345.67', dayChange: '4.56%', volume: '$789.01K' },
+            { name: 'Ripple', symbol: 'XRP', marketCap: '$12.34B', price: '$0.567', dayChange: '3.45%', volume: '$234.56M' },
+            { name: 'Litecoin', symbol: 'LTC', marketCap: '$5.67B', price: '$123.45', dayChange: '2.34%', volume: '$56.78M' },
+            { name: 'Cardano', symbol: 'ADA', marketCap: '$2.34B', price: '$0.567', dayChange: '1.23%', volume: '$12.34M' },
+            { name: 'Polkadot', symbol: 'DOT', marketCap: '$1.23B', price: '$10.56', dayChange: '2.78%', volume: '$45.67M' },
+            { name: 'Chainlink', symbol: 'LINK', marketCap: '$3.45B', price: '$25.78', dayChange: '3.89%', volume: '$89.01M' },
+            { name: 'Stellar', symbol: 'XLM', marketCap: '$1.89B', price: '$0.456', dayChange: '1.45%', volume: '$34.56M' },
+            { name: 'Dogecoin', symbol: 'DOGE', marketCap: '$8.76B', price: '$0.678', dayChange: '4.56%', volume: '$123.45M' },
+            { name: 'Polymath', symbol: 'POLY', marketCap: '$0.89B', price: '$1.23', dayChange: '0.78%', volume: '$12.34M' },
+        ];
+
+        const cryptoContainer = document.getElementById('crypto-container');
+        const detailsContainer = document.querySelector('.details-container');
+        const searchInput = document.getElementById('cryptoSearch');
+        const timeIntervalSelect = document.getElementById('timeInterval');
+
+        function filterCryptoData() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedInterval = timeIntervalSelect.value;
+
+            const filteredData = cryptoData.filter(crypto => {
+                return (
+                    crypto.name.toLowerCase().includes(searchText) ||
+                    crypto.symbol.toLowerCase().includes(searchText)
+                );
+            });
+
+            // Sorting based on the selected interval
+            switch (selectedInterval) {
+                case 'hour':
+                    // Sort by hourly change
+                    filteredData.sort((a, b) => parseFloat(b.hourChange) - parseFloat(a.hourChange));
+                    break;
+                case 'day':
+                    // Sort by daily change
+                    filteredData.sort((a, b) => parseFloat(b.dayChange) - parseFloat(a.dayChange));
+                    break;
+                case 'week':
+                    // Sort by weekly change
+                    filteredData.sort((a, b) => parseFloat(b.weekChange) - parseFloat(a.weekChange));
+                    break;
+                case 'month':
+                    // Sort by monthly change
+                    filteredData.sort((a, b) => parseFloat(b.monthChange) - parseFloat(a.monthChange));
+                    break;
+                case 'year':
+                    // Sort by yearly change
+                    filteredData.sort((a, b) => parseFloat(b.yearChange) - parseFloat(a.yearChange));
+                    break;
+                case 'marketCap':
+                    // Sort by market cap
+                    filteredData.sort((a, b) => parseFloat(b.marketCap) - parseFloat(a.marketCap));
+                    break;
+                case 'dayChange':
+                    // Sort by day change
+                    filteredData.sort((a, b) => parseFloat(b.dayChange) - parseFloat(a.dayChange));
+                    break;
+                default:
+                    // No sorting
+                    break;
+            }
+
+            renderCryptoButtons(filteredData);
+            renderDetailsCards(filteredData);
+        }
+
+        function renderCryptoButtons(cryptoArray) {
+            cryptoContainer.innerHTML = '';
+            (cryptoArray || cryptoData).forEach(crypto => {
+                const button = document.createElement('button');
+                button.classList.add('crypto-button');
+                button.innerHTML = `
+                    <h2>${crypto.name} (${crypto.symbol})</h2>
+                    <p>Market Cap: ${crypto.marketCap}</p>
+                    <p>Price: ${crypto.price}</p>
+                    <p>Day Change: ${crypto.dayChange}</p>
+                `;
+                cryptoContainer.appendChild(button);
+
+                // Set random animation properties for each button
+                button.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random duration between 2 and 5 seconds
+                button.style.animationDelay = `${Math.random() * 2}s`; // Random delay between 0 and 2 seconds
+                button.style.animationTimingFunction = 'ease-in-out';
+            });
+        }
+
+        function renderDetailsCards(cryptoArray) {
+            detailsContainer.innerHTML = '';
+            (cryptoArray || cryptoData).forEach(crypto => {
+                const card = document.createElement('div');
+                card.classList.add('details-card');
+                card.innerHTML = `
+                    <h2>${crypto.name} (${crypto.symbol})</h2>
+                    <p>Market Cap: ${crypto.marketCap}</p>
+                    <p>Price: ${crypto.price}</p>
+                    <p>Day Change: ${crypto.dayChange}</p>
+                    <p>Volume: ${crypto.volume}</p>
+                `;
+                detailsContainer.appendChild(card);
+            });
+        }
+
+        // Event listeners for search and interval change
+        searchInput.addEventListener('input', filterCryptoData);
+        timeIntervalSelect.addEventListener('change', filterCryptoData);
+
+        // Initial rendering
+        filterCryptoData();
+    </script>
+
+</body>
+
+</html>
